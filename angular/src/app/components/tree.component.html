@@ -1,0 +1,19 @@
+<ng-container *ngIf="data.length">
+    <ng-container *ngFor="let m of data;let i =index">
+        <div class="row">
+            <div *ngIf="deepin>0" [class]="'col-xs-'+deepin">
+
+            </div>
+            <div class="col-xs-4">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" [(ngModel)]="m.checked" name="m.checked" /> {{m.display_name}}
+                    </label>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngIf="m.child">
+            <app-tree [data]="m.child" [deepin]="deepin+1"></app-tree>
+        </ng-container>
+    </ng-container>
+</ng-container>

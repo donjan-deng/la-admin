@@ -1,0 +1,52 @@
+import { Component, OnChanges, OnInit, Input, Output, SimpleChange, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-page',
+  templateUrl: './page.component.html'
+})
+export class PageComponent implements OnInit, OnChanges {
+  @Input() data: any;
+  @Output() onGoPage = new EventEmitter<number>();
+  pageList: Array<{ page: number, current: boolean }>;
+  ngOnInit(): void {
+
+  }
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
+    for (let propName in changes) {
+      let changedProp = changes[propName];
+      if (propName == 'data' && changedProp.isFirstChange() === false) {
+        this.getPageList();
+      }
+    }
+  }
+  changePage(page) {
+    this.onGoPage.emit(page);
+  }
+  getPageList() { // 生成页码
+    this.pageList = new Array();
+    let rollPage = 10; // 只显示10页
+    let nowCoolPage = rollPage / 2;
+    let nowCoolPageCeil = Math.ceil(nowCoolPage);
+    let tmpPage;
+    for (let i = 1; i <= rollPage; i++) {
+      if ((this.data.current_page - nowCoolPage) <= 0) {
+        tmpPage = i;
+      } else if ((this.data.current_page + nowCoolPage - 1) >= this.data.last_page) {
+        tmpPage = this.data.last_page - rollPage + i;
+      } else {
+        tmpPage = this.data.current_page - nowCoolPageCeil + i;
+      }
+      if (tmpPage > 0 && tmpPage != this.data.current_page) {
+        if (tmpPage <= this.data.last_page) {
+          this.pageList.push({ page: tmpPage, current: false });
+        } else {
+          break;
+        }
+      } else {
+        if (tmpPage > 0) { // && this.data.last_page != 1) {
+          this.pageList.push({ page: tmpPage, current: true });
+        }
+      }
+    }
+  }
+}

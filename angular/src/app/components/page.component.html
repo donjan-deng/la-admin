@@ -1,0 +1,19 @@
+<div class="dataTables_paginate paging_simple_numbers" *ngIf="data">
+    <ul class="pagination">
+        <li class="paginate_button previous disabled" *ngIf="data['prev_page_url']==null">
+            <a href="javascript:void(0);">上一页</a>
+        </li>
+        <li class="paginate_button previous" *ngIf="data['prev_page_url']!=null">
+            <a href="javascript:void(0);" (click)="changePage(data['current_page'] - 1)">上一页</a>
+        </li>
+        <li *ngFor = "let p of pageList" class="paginate_button" [class.active] = "p.current">
+            <a href="javascript:void(0);" (click)="changePage(p.page)">{{p.page}}</a>
+        </li>
+        <li class="paginate_button next disabled" *ngIf="data['next_page_url']==null">
+            <a href="javascript:void(0);">下一页</a>
+        </li>
+        <li class="paginate_button next" *ngIf="data['next_page_url']!=null">
+            <a href="javascript:void(0);" (click)="changePage(data['current_page'] + 1)">下一页</a>
+        </li>
+    </ul>
+</div>

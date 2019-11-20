@@ -1,0 +1,7 @@
+{
+    "**": {
+        "target": "http://192.168.137.200:3000",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
